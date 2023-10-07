@@ -1,4 +1,5 @@
 package com.alisher.entity;
 
-public interface Subject {//mark
+public interface Subject {
+    int getCredit();
 }

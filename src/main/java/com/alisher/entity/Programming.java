@@ -11,4 +11,9 @@ public class Programming implements Subject{
     public String toString() {
         return "Programming";
     }
+
+    @Override
+    public int getCredit() {
+        return 5;
+    }
 }

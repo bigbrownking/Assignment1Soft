@@ -77,7 +77,9 @@ public class University {
         }
         System.out.println("Which student? (id)");
         int studId = scanner.nextInt();
-        Optional<Student> studentOptional = university.getStudents().stream().filter(x -> x.getId() == studId).findFirst();
+        Optional<Student> studentOptional = university.getStudents().stream()
+                .filter(x -> x.getId() == studId)
+                .findFirst();
         if(studentOptional.isPresent()){
             Student stud = studentOptional.get();
             stud.addSubject(subject);

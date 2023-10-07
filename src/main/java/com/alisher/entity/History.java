@@ -10,4 +10,9 @@ public class History implements Subject{
     public String toString() {
         return "History";
     }
+
+    @Override
+    public int getCredit() {
+        return 2;
+    }
 }

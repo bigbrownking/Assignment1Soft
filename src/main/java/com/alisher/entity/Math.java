@@ -10,4 +10,9 @@ public class Math implements Subject{
     public String toString() {
         return "Math";
     }
+
+    @Override
+    public int getCredit() {
+        return 3;
+    }
 }
