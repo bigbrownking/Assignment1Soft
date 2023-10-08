@@ -1,6 +1,6 @@
-package com.alisher.entity;
+package com.alisher.entity.subjects;
 
-public class Math implements Subject{
+public class Math implements Subject {
     private static Math math = new Math();
     private Math(){}
     public static Math getMath(){
@@ -9,5 +9,10 @@ public class Math implements Subject{
     @Override
     public String toString() {
         return "Math";
+    }
+
+    @Override
+    public int getCredit() {
+        return 3;
     }
 }
