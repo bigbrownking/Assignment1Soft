@@ -1,6 +1,6 @@
-package com.alisher.entity;
+package com.alisher.entity.subjects;
 
-public class History implements Subject{
+public class History implements Subject {
     private static History history = new History();
     private History(){}
     public static History getHistory(){

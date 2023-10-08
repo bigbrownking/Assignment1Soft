@@ -1,11 +1,12 @@
-package com.alisher.entity;
+package com.alisher.entity.people;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
+import com.alisher.entity.subjects.Subject;
+
+import java.util.*;
+
 public class Student extends Person{
     private int course = 1;
-    private List<Subject> subjectList = new ArrayList<>();
+
     private String group;
     private HashMap<Subject, Integer> grades = new HashMap<>();
     public Student(int id, String name, String surname, String group){
@@ -21,25 +22,23 @@ public class Student extends Person{
     public void setCourse(int course) {
         this.course = course;
     }
-    public List<Subject> getSubjectList() {
-        return subjectList;
-    }
-    public void setSubjectList(List<Subject> subjectList) {
-        this.subjectList = subjectList;
-    }
     public String getGroup() {
         return group;
     }
-    public void setGroup(String group) {
-        this.group = group;
-    }
-    public void addSubject(Subject subject){
-        subjectList.add(subject);
+    public void setGroup(String group) {this.group = group;}
+
+    public HashMap<Subject, Integer> getGrades() {return grades;}
+    public void setGrades(HashMap<Subject, Integer> grades) {this.grades = grades;}
+
+
+    public void putGrade(Subject subject, int grade){
+        grades.put(subject, grade);
     }
     public double getGPA() {
-        double totalPoints = subjectList.stream()
-                .mapToDouble(subject -> {
-                    int subjectGrade = grades.getOrDefault(subject, 0);
+        double totalPoints = grades.entrySet().stream()
+                .mapToDouble(entry -> {
+                    Subject subject = entry.getKey();
+                    int subjectGrade = entry.getValue();
                     int subjectCredits = subject.getCredit();
 
                     if (subjectGrade >= 95) return 4.0 * subjectCredits;
@@ -55,7 +54,7 @@ public class Student extends Person{
                     else return 0;
                 })
                 .sum();
-        int totalCredits = subjectList.stream()
+        int totalCredits = grades.keySet().stream()
                 .mapToInt(Subject::getCredit)
                 .sum();
         if (totalCredits == 0) return 0;
@@ -65,7 +64,7 @@ public class Student extends Person{
     public String toString() {
         return "Student{" +
                 "course=" + course +
-                ", subjectList=" + subjectList +
+                ", grades=" + grades +
                 ", group='" + group + '\'' +
                 ", id=" + id +
                 ", name='" + name + '\'' +

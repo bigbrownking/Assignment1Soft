@@ -1,9 +1,11 @@
-package com.alisher.entity;
+package com.alisher.entity.people;
+
+import com.alisher.entity.subjects.Subject;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class Teacher extends Person{
+public class Teacher extends Person {
     private Subject subject;
     private List<String> groupList = new ArrayList<>();
     public Teacher() {
@@ -27,7 +29,6 @@ public class Teacher extends Person{
     public void setGroupList(List<String> groupList) {
         this.groupList = groupList;
     }
-
     @Override
     public String toString() {
         return "Teacher{" +

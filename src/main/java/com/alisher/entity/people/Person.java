@@ -1,4 +1,4 @@
-package com.alisher.entity;
+package com.alisher.entity.people;
 
 public abstract class Person {
     protected int id;

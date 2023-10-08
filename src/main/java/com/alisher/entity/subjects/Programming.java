@@ -1,6 +1,6 @@
-package com.alisher.entity;
+package com.alisher.entity.subjects;
 
-public class Programming implements Subject{
+public class Programming implements Subject {
     private static Programming programming = new Programming();
     private Programming(){}
     public static Programming getProgramming(){

@@ -1,6 +1,6 @@
-package com.alisher.entity;
+package com.alisher.entity.subjects;
 
-public class Math implements Subject{
+public class Math implements Subject {
     private static Math math = new Math();
     private Math(){}
     public static Math getMath(){

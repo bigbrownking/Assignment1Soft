@@ -1,10 +1,13 @@
 package com.alisher;
 
+import java.util.Scanner;
+
 public class App {
     private static University university = University.getUniversity();
+    private static Scanner sc = new Scanner(System.in);
     public static void main(String[] args){
         System.out.println("Welcome to our university! Who are you?(teacher or student)");
-        String answer = University.getScanner().next();
+        String answer = sc.next();
         boolean accessibility = answer.equals("teacher") ? true : false;
         while(true){
             System.out.println("What do you want?");
@@ -12,10 +15,11 @@ public class App {
             System.out.println("PRESS [1] TO SHOW STUDENT LIST");
             System.out.println("PRESS [2] TO SHOW TEACHER LIST");
             if(accessibility){
-                System.out.println("PRESS [3] TO ADD STUDENT");
-                System.out.println("PRESS [4] TO ADD SUBJECT TO STUDENT BY ID");
+                System.out.println("PRESS [3] GIVE ADDITIONAL INFO");
+                System.out.println("PRESS [4] TO ADD STUDENT");
+                System.out.println("PRESS [5] TO ADD SUBJECT TO STUDENT BY ID");
             }
-            int choice = University.getScanner().nextInt();
+            int choice = sc.nextInt();
             switch (choice){
                 case 0:
                     System.out.println("Good bye!");
@@ -27,10 +31,13 @@ public class App {
                     university.showTeachers();
                     break;
                 case 3:
-                   university.addStudent();
+                    university.additionalInfoAboutStudent(sc);
                     break;
                 case 4:
-                    university.addSubject();
+                   university.addStudent(sc);
+                    break;
+                case 5:
+                    university.addSubjectToStudent(sc);
                     break;
             }
         }

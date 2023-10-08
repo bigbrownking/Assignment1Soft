@@ -1,4 +1,4 @@
-package com.alisher.entity;
+package com.alisher.entity.subjects;
 
 public interface Subject {
     int getCredit();
