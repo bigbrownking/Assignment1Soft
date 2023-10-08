@@ -1,6 +1,6 @@
-package com.alisher.entity.subjects;
+package com.alisher.entity;
 
-public class History implements Subject {
+public class History implements Subject{
     private static History history = new History();
     private History(){}
     public static History getHistory(){
@@ -9,10 +9,5 @@ public class History implements Subject {
     @Override
     public String toString() {
         return "History";
-    }
-
-    @Override
-    public int getCredit() {
-        return 2;
     }
 }

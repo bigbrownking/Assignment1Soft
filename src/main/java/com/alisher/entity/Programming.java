@@ -1,6 +1,6 @@
-package com.alisher.entity.subjects;
+package com.alisher.entity;
 
-public class Programming implements Subject {
+public class Programming implements Subject{
     private static Programming programming = new Programming();
     private Programming(){}
     public static Programming getProgramming(){
@@ -10,10 +10,5 @@ public class Programming implements Subject {
     @Override
     public String toString() {
         return "Programming";
-    }
-
-    @Override
-    public int getCredit() {
-        return 5;
     }
 }
