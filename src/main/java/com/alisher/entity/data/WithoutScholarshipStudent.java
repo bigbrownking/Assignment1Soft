@@ -13,9 +13,5 @@ public class WithoutScholarshipStudent extends StudentDecorator{
         return super.showData() + grantData();
     }
 
-    @Override
-    public void setData(Data data) {
-        super.setData(data);
-    }
 }
 

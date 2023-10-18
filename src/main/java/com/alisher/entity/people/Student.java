@@ -6,13 +6,43 @@ import java.util.*;
 
 public class Student extends Person{
     private int course = 1;
-
     private String group;
     private HashMap<Subject, Integer> grades = new HashMap<>();
     public Student(int id, String name, String surname, String group){
         super(id, name, surname);
         this.group = group;
     }
+
+    @Override
+    public int getId() {
+        return super.getId();
+    }
+
+    @Override
+    public void setId(int id) {
+        super.setId(id);
+    }
+
+    @Override
+    public String getName() {
+        return super.getName();
+    }
+
+    @Override
+    public void setName(String name) {
+        super.setName(name);
+    }
+
+    @Override
+    public String getSurname() {
+        return super.getSurname();
+    }
+
+    @Override
+    public void setSurname(String surname) {
+        super.setSurname(surname);
+    }
+
     public Student() {
         super();
     }
@@ -29,8 +59,6 @@ public class Student extends Person{
 
     public HashMap<Subject, Integer> getGrades() {return grades;}
     public void setGrades(HashMap<Subject, Integer> grades) {this.grades = grades;}
-
-
     public void putGrade(Subject subject, int grade){
         grades.put(subject, grade);
     }
@@ -60,6 +88,12 @@ public class Student extends Person{
         if (totalCredits == 0) return 0;
         return totalPoints / totalCredits;
     }
+
+    public static String sendMessageToAccountant(Scanner scanner) {
+       String message = scanner.nextLine();
+       return message;
+    }
+
     @Override
     public String toString() {
         return "Student{" +
