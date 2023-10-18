@@ -12,8 +12,4 @@ public class ScholarshipStudent extends StudentDecorator{
         return super.showData() + scholarShipData();
     }
 
-    @Override
-    public void setData(Data data) {
-        super.setData(data);
-    }
 }

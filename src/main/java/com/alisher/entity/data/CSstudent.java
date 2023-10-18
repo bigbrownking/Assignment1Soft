@@ -4,7 +4,6 @@ public class CSstudent extends StudentDecorator{
     public CSstudent(Data data) {
         super(data);
     }
-
     public String csData(){
         return "and I am CS student";
     }
@@ -13,8 +12,4 @@ public class CSstudent extends StudentDecorator{
         return super.showData() + csData();
     }
 
-    @Override
-    public void setData(Data data) {
-        super.setData(data);
-    }
 }

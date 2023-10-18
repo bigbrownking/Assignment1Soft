@@ -1,6 +1,8 @@
 package com.alisher;
 
 import com.alisher.entity.data.*;
+import com.alisher.entity.people.Accountant;
+import com.alisher.entity.people.Rector;
 import com.alisher.entity.people.Student;
 import com.alisher.entity.people.Teacher;
 import com.alisher.entity.subjects.Math;
@@ -12,13 +14,17 @@ import java.util.*;
 
 public class University {
 
-    private static List<Student> students = new ArrayList<>();
-    private static List<Teacher> teachers = new ArrayList<>();
-    private static List<Subject> subjects = new ArrayList<>();
-    private static int globalId = 5;
+    private List<Student> students = new ArrayList<>();
+    private List<Teacher> teachers = new ArrayList<>();
+    private List<Subject> subjects = new ArrayList<>();
+    private Rector rector = new Rector();
+    private  int globalId = 6;
     private static University university;
 
     private University() {
+        rector.setId(5);
+        rector.setName("Name");
+        rector.setSurname("Surname");
         Student student1 = new Student(1, "Alisher", "Khairullin", "SE-2207");
         Student student2 = new Student(2, "Shakhnur", "Aubakirov", "CS-2208");
         Student student3 = new Student(3, "Rayimbek", "Bokhorov", "SE-2209");
@@ -32,7 +38,6 @@ public class University {
         student3.putGrade(Programming.getProgramming(), 60);
         student3.putGrade(Math.getMath(), 78);
         student3.putGrade(History.getHistory(), 70);
-
 
         students.add(student1);
         students.add(student2);
@@ -48,7 +53,7 @@ public class University {
     }
 
     public static University getUniversity() {
-        university = new University();
+       if(university == null) university = new University();
         return university;
     }
 
@@ -115,6 +120,7 @@ public class University {
             if(stud.getGroup().contains("SE")) SE = true;
             if(stud.getGPA() >= 3.0) scholarship = true;
 
+
             if(SE && scholarship) data = new SEstudent(new ScholarshipStudent(new StudentData()));
             else if(!SE && scholarship) data = new CSstudent(new ScholarshipStudent(new StudentData()));
             else if(SE && !scholarship) data = new SEstudent(new WithoutScholarshipStudent(new StudentData()));
@@ -123,8 +129,7 @@ public class University {
             System.out.println(data.showData());
         } else System.out.println("We don't have this student");
     }
-
-    private Student findStudent(Scanner scanner) {
+    public Student findStudent(Scanner scanner) {
         System.out.println("Which student? (id)");
         int studId = scanner.nextInt();
         Optional<Student> studentOptional = university.getStudents().stream()
@@ -132,5 +137,11 @@ public class University {
                 .findFirst();
         if (studentOptional.isPresent()) return studentOptional.get();
         else return null;
+    }
+    public void allowStudentToSendMessage(Scanner scanner){
+        Accountant accountant = new Accountant(rector);
+        scanner.nextLine();
+        String message = Student.sendMessageToAccountant(scanner);
+        accountant.communicate(message);
     }
 }

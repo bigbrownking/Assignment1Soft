@@ -9,11 +9,6 @@ public class SEstudent extends StudentDecorator{
     }
 
     @Override
-    public void setData(Data data) {
-        super.setData(data);
-    }
-
-    @Override
     public String showData() {
         return super.showData() + seData();
     }
