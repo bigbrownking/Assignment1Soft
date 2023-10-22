@@ -1,5 +1,6 @@
 package com.alisher.entity.people;
 
+import com.alisher.entity.library.Book;
 import com.alisher.entity.subjects.Subject;
 
 import java.util.*;
@@ -8,9 +9,12 @@ public class Student extends Person{
     private int course = 1;
     private String group;
     private HashMap<Subject, Integer> grades = new HashMap<>();
-    public Student(int id, String name, String surname, String group){
+    private List<Book> books = new ArrayList<>();
+    private boolean debtor;
+    public Student(int id, String name, String surname, String group, Boolean debtor){
         super(id, name, surname);
         this.group = group;
+        this.debtor = debtor;
     }
 
     @Override
@@ -41,6 +45,22 @@ public class Student extends Person{
     @Override
     public void setSurname(String surname) {
         super.setSurname(surname);
+    }
+
+    public boolean isDebtor() {
+        return debtor;
+    }
+
+    public void setDebtor(boolean debtor) {
+        this.debtor = debtor;
+    }
+
+    public List<Book> getBooks() {
+        return books;
+    }
+
+    public void setBooks(List<Book> books) {
+        this.books = books;
     }
 
     public Student() {
@@ -88,12 +108,9 @@ public class Student extends Person{
         if (totalCredits == 0) return 0;
         return totalPoints / totalCredits;
     }
-
-    public static String sendMessageToAccountant(Scanner scanner) {
-       String message = scanner.nextLine();
-       return message;
+    public void addBook(Book book){
+        books.add(book);
     }
-
     @Override
     public String toString() {
         return "Student{" +
@@ -103,6 +120,8 @@ public class Student extends Person{
                 ", id=" + id +
                 ", name='" + name + '\'' +
                 ", surname='" + surname + '\'' +
+                ", debtor='" + debtor + '\'' +
+                ", books='" + books + '\'' +
                 '}';
     }
 }

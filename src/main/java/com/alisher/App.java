@@ -14,7 +14,7 @@ public class App {
             System.out.println("PRESS [0] TO EXIT");
             System.out.println("PRESS [1] TO SHOW STUDENT LIST");
             System.out.println("PRESS [2] TO SHOW TEACHER LIST");
-            System.out.println("PRESS [3] TO WRITE MESSAGE TO RECTOR");
+            System.out.println("PRESS [3] TO GO TO LIBRARY");
             if(accessibility){
                 System.out.println("PRESS [4] GIVE ADDITIONAL INFO");
                 System.out.println("PRESS [5] TO ADD STUDENT");
@@ -32,7 +32,7 @@ public class App {
                     university.showTeachers();
                     break;
                 case 3:
-                    university.allowStudentToSendMessage(sc);
+                    university.goToLibrary(sc);
                     break;
                 case 4:
                     university.additionalInfoAboutStudent(sc);
