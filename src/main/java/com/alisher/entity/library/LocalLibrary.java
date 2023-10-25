@@ -6,7 +6,11 @@ import com.alisher.entity.people.Student;
 import java.util.Optional;
 
 public class LocalLibrary implements UniversityLibrarySystem{
+    private LibraryManagementAdapter libraryManagementAdapter;
 
+    public LocalLibrary(ExternalLibrary libraryManagementAdapter) {
+        this.libraryManagementAdapter = new LibraryManagementAdapter(libraryManagementAdapter);
+    }
     @Override
     public void borrowBook(int studentID, Book book) {
         if(checkoutBook(studentID)) {
@@ -30,5 +34,8 @@ public class LocalLibrary implements UniversityLibrarySystem{
             return true;
         }
         return false;
+    }
+    public void deliverBook(int studId, Book book){
+        libraryManagementAdapter.borrowBook(studId, book);
     }
 }

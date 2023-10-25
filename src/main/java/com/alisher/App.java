@@ -15,10 +15,12 @@ public class App {
             System.out.println("PRESS [1] TO SHOW STUDENT LIST");
             System.out.println("PRESS [2] TO SHOW TEACHER LIST");
             System.out.println("PRESS [3] TO GO TO LIBRARY");
+            System.out.println("PRESS [4] TO GO TO CANTEEN");
             if(accessibility){
-                System.out.println("PRESS [4] GIVE ADDITIONAL INFO");
-                System.out.println("PRESS [5] TO ADD STUDENT");
-                System.out.println("PRESS [6] TO ADD SUBJECT TO STUDENT BY ID");
+                System.out.println("PRESS [5] GIVE ADDITIONAL INFO");
+                System.out.println("PRESS [6] TO ADD STUDENT");
+                System.out.println("PRESS [7] TO ADD SUBJECT TO STUDENT BY ID");
+                System.out.println("PRESS [8] TO NOTIFY STUDENTS");
             }
             int choice = sc.nextInt();
             switch (choice){
@@ -35,13 +37,19 @@ public class App {
                     university.goToLibrary(sc);
                     break;
                 case 4:
-                    university.additionalInfoAboutStudent(sc);
+                    university.goToCanteen(sc);
                     break;
                 case 5:
-                   university.addStudent(sc);
+                    university.additionalInfoAboutStudent(sc);
                     break;
                 case 6:
+                   university.addStudent(sc);
+                    break;
+                case 7:
                     university.addSubjectToStudent(sc);
+                    break;
+                case 8:
+                    university.messageFromTeacher(sc);
                     break;
             }
         }
