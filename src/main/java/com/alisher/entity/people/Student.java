@@ -5,12 +5,13 @@ import com.alisher.entity.subjects.Subject;
 
 import java.util.*;
 
-public class Student extends Person{
+public class Student extends Person implements Observer{
     private int course = 1;
     private String group;
     private HashMap<Subject, Integer> grades = new HashMap<>();
     private List<Book> books = new ArrayList<>();
     private boolean debtor;
+    private String emergencyMessageFromTeacher="";
     public Student(int id, String name, String surname, String group, Boolean debtor){
         super(id, name, surname);
         this.group = group;
@@ -77,6 +78,14 @@ public class Student extends Person{
     }
     public void setGroup(String group) {this.group = group;}
 
+    public String getEmergencyMessageFromTeacher() {
+        return emergencyMessageFromTeacher;
+    }
+
+    public void setEmergencyMessageFromTeacher(String emergencyMessageFromTeacher) {
+        this.emergencyMessageFromTeacher = emergencyMessageFromTeacher;
+    }
+
     public HashMap<Subject, Integer> getGrades() {return grades;}
     public void setGrades(HashMap<Subject, Integer> grades) {this.grades = grades;}
     public void putGrade(Subject subject, int grade){
@@ -123,5 +132,10 @@ public class Student extends Person{
                 ", debtor='" + debtor + '\'' +
                 ", books='" + books + '\'' +
                 '}';
+    }
+    @Override
+    public void handleMessage(String message) {
+        this.emergencyMessageFromTeacher = message;
+        System.out.println("Dear " + name +" "+ surname +". We have some changes in syllabus: " + message);
     }
 }
