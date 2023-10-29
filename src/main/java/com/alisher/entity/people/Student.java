@@ -133,7 +133,6 @@ public class Student extends Person implements Observer{
                 ", books='" + books + '\'' +
                 '}';
     }
-
     @Override
     public void handleMessage(String message) {
         this.emergencyMessageFromTeacher = message;
