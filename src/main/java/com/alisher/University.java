@@ -1,10 +1,9 @@
 package com.alisher;
 
-import com.alisher.entity.canteen.Canteen;
-import com.alisher.entity.canteen.Dish;
+import com.alisher.entity.canteen.*;
 import com.alisher.entity.data.*;
 import com.alisher.entity.library.*;
-import com.alisher.entity.people.Observed;
+import com.alisher.entity.people.Person;
 import com.alisher.entity.people.Student;
 import com.alisher.entity.people.Teacher;
 import com.alisher.entity.subjects.Math;
@@ -55,9 +54,9 @@ public class University {
         students.add(student7);
         students.add(student8);
 
-        Teacher teacher1 = new Teacher(globalId++, "Sayat", "Kalnazar", Programming.getProgramming());
+        Teacher teacher = new Teacher(globalId++, "Sayat", "Kalnazar", Programming.getProgramming(), false);
 
-        teachers.add(teacher1);
+        teachers.add(teacher);
 
         subjects.add(Math.getMath());
         subjects.add(History.getHistory());
@@ -68,6 +67,9 @@ public class University {
 
         books.add(book1);
         books.add(book2);
+        for(Student observer : getStudents()){
+            teacher.addObserver(observer);
+        }
 
     }
 
@@ -100,7 +102,7 @@ public class University {
         subjects.stream().forEach(System.out::println);
     }
     public void showBooks(){
-        books.stream().forEach(System.out::println);
+        books.stream().filter(x -> x.getCount() > 0).forEach(System.out::println);
     }
 
     public void addStudent(Scanner scanner) {
@@ -161,15 +163,19 @@ public class University {
         if (studentOptional.isPresent()) return studentOptional.get();
         return null;
     }
-    public void goToLibrary(Scanner scanner){
+    public void goToLibrary(Scanner scanner, boolean accessibility){
+        Person person;
+        if(accessibility) person = findTeacher(scanner);
+        else person = findStudent(scanner);
         LocalLibrary library = new LocalLibrary(new ExternalLibrary());
-        Student stud = findStudent(scanner);
-        if (stud != null) {
+        if (person != null) {
         System.out.println("Welcome to library!");
         System.out.println("We have:");
         showBooks();
         Book book = findBook(scanner);
-            if(book != null) library.borrowBook(stud.getId(),book);
+            if(book != null) {
+                library.borrowBook(person.getId(),book);
+            }
             else {
                 System.out.println("We don't have this book, but another library have.");
                 System.out.println("Enter the name of book");
@@ -177,10 +183,10 @@ public class University {
                 String bookName = scanner.nextLine();
                 Book deliveredBook = new Book();
                 deliveredBook.setBookName(bookName);
-                library.deliverBook(stud.getId(), deliveredBook);
+                library.deliverBook(person.getId(), deliveredBook);
                 System.out.println("Be care for this book");
             }
-        } else System.out.println("We don't have this student");
+        } else System.out.println("We don't have this person");
     }
     public Book findBook(Scanner scanner){
         System.out.println("Which one?");
@@ -191,21 +197,36 @@ public class University {
         if(bookOptional.isPresent()) return bookOptional.get();
         return null;
     }
-    public void goToCanteen(Scanner scanner){
-        Student stud = findStudent(scanner);
-        Canteen canteen = new Canteen();
-        if (stud != null) {
-            System.out.println("Welcome to canteen");
+    public void goToCanteen(Scanner scanner, boolean accessibility){
+        Person person;
+        if(accessibility) person = findTeacher(scanner);
+        else person = findStudent(scanner);
+        if(person != null) {
+            System.out.println("Welcome to the canteen!");
+            System.out.println("Please choose your meal:");
+            System.out.println("1. First Meal");
+            System.out.println("2. Second Meal");
+            System.out.println("3. Set Meal");
+            int choice = scanner.nextInt();
+            Canteen canteen = null;
+            switch (choice) {
+                case 1:
+                    canteen = new FirstMealFactory();
+                    break;
+                case 2:
+                    canteen = new SecondMealFactory();
+                    break;
+                case 3:
+                    canteen = new SetMealFactory();
+                    break;
+            }
             canteen.showMenu();
-            System.out.println("Choose dishType");
+            System.out.println("Enter a description for your meal:");
             scanner.nextLine();
-            String dishType = scanner.nextLine();
-            System.out.println("Enter your dish");
             String description = scanner.nextLine();
-            Dish dish = canteen.makeOrder(dishType, description);
-            if (dish != null) System.out.println(stud.getName() + " has ordered " + dish.getDescription() + " for " + dish.price() + " tenge.");
-            else System.out.println("Invalid dish selection.");
-        } else System.out.println("We don't have this student");
+            Dish studDish = canteen.makeOrder(description);
+            System.out.println(person.getName() + " have ordered " + studDish.getDescription() + "for " + studDish.price() + " tenge");
+        } else System.out.println("We don't have this person");
     }
     public void messageFromTeacher(Scanner scanner){
         Teacher teacher = findTeacher(scanner);

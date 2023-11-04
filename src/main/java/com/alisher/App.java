@@ -34,10 +34,10 @@ public class App {
                     university.showTeachers();
                     break;
                 case 3:
-                    university.goToLibrary(sc);
+                    university.goToLibrary(sc, accessibility);
                     break;
                 case 4:
-                    university.goToCanteen(sc);
+                    university.goToCanteen(sc, accessibility);
                     break;
                 case 5:
                     university.additionalInfoAboutStudent(sc);
@@ -54,4 +54,5 @@ public class App {
             }
         }
     }
+
 }

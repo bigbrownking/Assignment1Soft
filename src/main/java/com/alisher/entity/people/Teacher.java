@@ -1,5 +1,6 @@
 package com.alisher.entity.people;
 
+import com.alisher.entity.library.Book;
 import com.alisher.entity.subjects.Subject;
 
 import java.util.ArrayList;
@@ -29,8 +30,8 @@ public class Teacher extends Person implements Observed{
 
     public Teacher() {
     }
-    public Teacher(int id, String name, String surname, Subject subject){
-        super(id, name, surname);
+    public Teacher(int id, String name, String surname, Subject subject, boolean debtor){
+        super(id, name, surname, debtor);
         this.subject = subject;
     }
 
@@ -70,16 +71,32 @@ public class Teacher extends Person implements Observed{
     public void setSubject(Subject subject) {
         this.subject = subject;
     }
+
     @Override
-    public String toString() {
-        return "Teacher{" +
-                "subject=" + subject +
-                ", students=" + students +
-                ", id=" + id +
-                ", name='" + name + '\'' +
-                ", surname='" + surname + '\'' +
-                '}';
+    public boolean isDebtor() {
+        return super.isDebtor();
     }
+
+    @Override
+    public void setDebtor(boolean debtor) {
+        super.setDebtor(debtor);
+    }
+
+    @Override
+    public List<Book> getBooks() {
+        return super.getBooks();
+    }
+
+    @Override
+    public void setBooks(List<Book> books) {
+        super.setBooks(books);
+    }
+
+    @Override
+    public void addBook(Book book) {
+        super.addBook(book);
+    }
+
     public void sendMessage(Scanner scanner){
         System.out.println("Enter your message");
         scanner.nextLine();
@@ -102,6 +119,17 @@ public class Teacher extends Person implements Observed{
         for(Observer observer : students){
             observer.handleMessage(this.emergencyMessage);
         }
+    }
+    @Override
+    public String toString() {
+        return "Teacher{" +
+                "subject=" + subject +
+                ", students=" + students +
+                ", id=" + getId() +
+                ", name='" + getName() + '\'' +
+                ", surname='" + getSurname() + '\'' +
+                ", books='" + getBooks() + '\''+
+                '}';
     }
 }
 
