@@ -9,13 +9,10 @@ public class Student extends Person implements Observer{
     private int course = 1;
     private String group;
     private HashMap<Subject, Integer> grades = new HashMap<>();
-    private List<Book> books = new ArrayList<>();
-    private boolean debtor;
     private String emergencyMessageFromTeacher="";
     public Student(int id, String name, String surname, String group, Boolean debtor){
-        super(id, name, surname);
+        super(id, name, surname, debtor);
         this.group = group;
-        this.debtor = debtor;
     }
 
     @Override
@@ -48,22 +45,24 @@ public class Student extends Person implements Observer{
         super.setSurname(surname);
     }
 
+    @Override
     public boolean isDebtor() {
-        return debtor;
+        return super.isDebtor();
     }
 
+    @Override
     public void setDebtor(boolean debtor) {
-        this.debtor = debtor;
+        super.setDebtor(debtor);
     }
 
+    @Override
     public List<Book> getBooks() {
-        return books;
+        return super.getBooks();
     }
-
+    @Override
     public void setBooks(List<Book> books) {
-        this.books = books;
+        super.setBooks(books);
     }
-
     public Student() {
         super();
     }
@@ -117,8 +116,16 @@ public class Student extends Person implements Observer{
         if (totalCredits == 0) return 0;
         return totalPoints / totalCredits;
     }
-    public void addBook(Book book){
-        books.add(book);
+
+    @Override
+    public void addBook(Book book) {
+        super.addBook(book);
+    }
+
+    @Override
+    public void handleMessage(String message) {
+        this.emergencyMessageFromTeacher = message;
+        System.out.println("Dear " + getName() +" "+ getSurname() +". We have some changes in syllabus: " + message);
     }
     @Override
     public String toString() {
@@ -126,16 +133,12 @@ public class Student extends Person implements Observer{
                 "course=" + course +
                 ", grades=" + grades +
                 ", group='" + group + '\'' +
-                ", id=" + id +
-                ", name='" + name + '\'' +
-                ", surname='" + surname + '\'' +
-                ", debtor='" + debtor + '\'' +
-                ", books='" + books + '\'' +
+                ", id=" + getId() +
+                ", name='" + getName() + '\'' +
+                ", surname='" + getSurname() + '\'' +
+                ", debtor='" + isDebtor() + '\'' +
+                ", books='" + getBooks() + '\'' +
                 '}';
     }
-    @Override
-    public void handleMessage(String message) {
-        this.emergencyMessageFromTeacher = message;
-        System.out.println("Dear " + name +" "+ surname +". We have some changes in syllabus: " + message);
-    }
+
 }
