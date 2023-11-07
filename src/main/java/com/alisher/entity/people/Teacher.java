@@ -9,15 +9,15 @@ import java.util.Scanner;
 
 public class Teacher extends Person implements Observed{
     private Subject subject;
-    private List<Observer> students = new ArrayList<>();
+    private NotificationManager manager;
     private String emergencyMessage;
 
     public List<Observer> getStudents() {
-        return students;
+        return manager.getObservers();
     }
 
     public void setStudents(List<Observer> students) {
-        this.students = students;
+        this.manager.setObservers(students);
     }
 
     public String getEmergencyMessage() {
@@ -106,17 +106,17 @@ public class Teacher extends Person implements Observed{
     }
     @Override
     public void addObserver(Observer observer) {
-        students.add(observer);
+        manager.getObservers().add(observer);
     }
 
     @Override
     public void removeObserver(Observer observer) {
-        students.remove(observer);
+        manager.getObservers().remove(observer);
     }
 
     @Override
     public void notifyObservers() {
-        for(Observer observer : students){
+        for(Observer observer : manager.getObservers()){
             observer.handleMessage(this.emergencyMessage);
         }
     }
@@ -124,7 +124,7 @@ public class Teacher extends Person implements Observed{
     public String toString() {
         return "Teacher{" +
                 "subject=" + subject +
-                ", students=" + students +
+                ", students=" + manager.getObservers() +
                 ", id=" + getId() +
                 ", name='" + getName() + '\'' +
                 ", surname='" + getSurname() + '\'' +

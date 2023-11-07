@@ -173,9 +173,7 @@ public class University {
         System.out.println("We have:");
         showBooks();
         Book book = findBook(scanner);
-            if(book != null) {
-                library.borrowBook(person.getId(),book);
-            }
+            if(book != null) library.borrowBook(person.getId(),book);
             else {
                 System.out.println("We don't have this book, but another library have.");
                 System.out.println("Enter the name of book");
@@ -208,18 +206,7 @@ public class University {
             System.out.println("2. Second Meal");
             System.out.println("3. Set Meal");
             int choice = scanner.nextInt();
-            Canteen canteen = null;
-            switch (choice) {
-                case 1:
-                    canteen = new FirstMealFactory();
-                    break;
-                case 2:
-                    canteen = new SecondMealFactory();
-                    break;
-                case 3:
-                    canteen = new SetMealFactory();
-                    break;
-            }
+            Canteen canteen = FactoryChoice.getCanteen(choice);
             canteen.showMenu();
             System.out.println("Enter a description for your meal:");
             scanner.nextLine();
