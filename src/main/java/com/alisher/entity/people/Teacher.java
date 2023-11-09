@@ -6,6 +6,7 @@ import com.alisher.entity.subjects.Subject;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
+import java.util.stream.Collectors;
 
 public class Teacher extends Person implements Observed{
     private Subject subject;
@@ -97,6 +98,14 @@ public class Teacher extends Person implements Observed{
         super.addBook(book);
     }
 
+    public NotificationManager getManager() {
+        return manager;
+    }
+
+    public void setManager(NotificationManager manager) {
+        this.manager = manager;
+    }
+
     public void sendMessage(Scanner scanner){
         System.out.println("Enter your message");
         scanner.nextLine();
@@ -122,14 +131,24 @@ public class Teacher extends Person implements Observed{
     }
     @Override
     public String toString() {
+        String studentsList = manager.getObservers().stream()
+                .map(observer -> {
+                    if(observer instanceof Student){
+                        Student student = (Student) observer;
+                        return "{id=" + student.getId() + ", name='" + student.getName() + "', surname='" + student.getSurname() + "'}";
+                    }
+                    else return "unknown person";
+                })
+                .collect(Collectors.joining(", "));
         return "Teacher{" +
                 "subject=" + subject +
-                ", students=" + manager.getObservers() +
+                ", students=[" + studentsList + "]" +
                 ", id=" + getId() +
                 ", name='" + getName() + '\'' +
                 ", surname='" + getSurname() + '\'' +
                 ", books='" + getBooks() + '\''+
                 '}';
     }
+
 }
 
