@@ -3,15 +3,15 @@ package com.alisher;
 import com.alisher.entity.canteen.*;
 import com.alisher.entity.data.*;
 import com.alisher.entity.library.*;
-import com.alisher.entity.people.Person;
-import com.alisher.entity.people.Student;
-import com.alisher.entity.people.Teacher;
+import com.alisher.entity.people.*;
+import com.alisher.entity.people.Observer;
 import com.alisher.entity.subjects.Math;
 import com.alisher.entity.subjects.History;
 import com.alisher.entity.subjects.Programming;
 import com.alisher.entity.subjects.Subject;
 
 import java.util.*;
+import java.util.stream.Collectors;
 
 public class University {
 
@@ -35,15 +35,31 @@ public class University {
         Student student8 = new Student(globalId++, "Ilya", "Shelestov","SE-2212", false);
 
 
-        student1.putGrade(Math.getMath(), 100);
-        student1.putGrade(History.getHistory(), 89);
+        student1.putGrade(Math.getMath(),0);
+        student1.putGrade(History.getHistory(), 0);
 
-        student2.putGrade(Programming.getProgramming(), 90);
-        student2.putGrade(Math.getMath(), 100);
+        student2.putGrade(Programming.getProgramming(), 0);
+        student2.putGrade(Math.getMath(), 0);
 
-        student3.putGrade(Programming.getProgramming(), 60);
-        student3.putGrade(Math.getMath(), 78);
-        student3.putGrade(History.getHistory(), 70);
+        student3.putGrade(Programming.getProgramming(), 0);
+        student3.putGrade(Math.getMath(), 0);
+        student3.putGrade(History.getHistory(), 0);
+
+        student3.putGrade(Programming.getProgramming(),0);
+        student3.putGrade(History.getHistory(),0);
+
+        student4.putGrade(Math.getMath(),0);
+        student4.putGrade(History.getHistory(), 0);
+
+        student5.putGrade(Math.getMath(),0);
+
+        student6.putGrade(History.getHistory(),0);
+
+        student7.putGrade(Programming.getProgramming(),0);
+
+        student8.putGrade(Math.getMath(),0);
+        student8.putGrade(Programming.getProgramming(),0);
+        student8.putGrade(History.getHistory(),0);
 
         students.add(student1);
         students.add(student2);
@@ -55,8 +71,16 @@ public class University {
         students.add(student8);
 
         Teacher teacher = new Teacher(globalId++, "Sayat", "Kalnazar", Programming.getProgramming(), false);
-
+        teacher.setManager(new NotificationManager());
         teachers.add(teacher);
+
+        Teacher teacher1 = new Teacher(globalId++, "Kairat","Batalov",History.getHistory(), false);
+        teacher1.setManager(new NotificationManager());
+        teachers.add(teacher1);
+
+        Teacher teacher2 = new Teacher(globalId++,"Zhanat","Karashbayeva",Math.getMath(),false);
+        teacher2.setManager(new NotificationManager());
+        teachers.add(teacher2);
 
         subjects.add(Math.getMath());
         subjects.add(History.getHistory());
@@ -67,10 +91,10 @@ public class University {
 
         books.add(book1);
         books.add(book2);
-        for(Student observer : getStudents()){
-            teacher.addObserver(observer);
-        }
 
+        addObservers(History.getHistory());
+        addObservers(Math.getMath());
+        addObservers(Programming.getProgramming());
     }
 
     public static University getUniversity() {
@@ -113,26 +137,43 @@ public class University {
         System.out.println("Enter group");
         String group = scanner.next();
         Student student = new Student(globalId++, name, surname, group, false);
+        System.out.println("Enter subjects(Math, Programming, History)");
+        scanner.nextLine();
+        String[] ans = scanner.nextLine().split(" ");
+        Arrays.stream(ans)
+                .forEach(sub -> {
+                    if(sub.equalsIgnoreCase("Math")) student.putGrade(Math.getMath(), 0);
+                    else if(sub.equalsIgnoreCase("Programming")) student.putGrade(Programming.getProgramming(),0);
+                    else student.putGrade(History.getHistory(),0);
+                });
+
         students.add(student);
+        addObservers(History.getHistory());
+        addObservers(Math.getMath());
+        addObservers(Programming.getProgramming());
         System.out.println("Added");
     }
 
-    public void addSubjectToStudent(Scanner scanner) {
-        System.out.println("We have 3 subjects: Math, History, Programming");
-        String ans = scanner.next();
-        Subject subject;
-        if (ans.equalsIgnoreCase("Math")) subject = Math.getMath();
-        else if (ans.equalsIgnoreCase("History")) subject = History.getHistory();
-        else if (ans.equalsIgnoreCase("Programming")) subject = Programming.getProgramming();
-        else {
-            System.out.println("Invalid input");
-            return;
-        }
-        Student stud = findStudent(scanner);
-        if (stud != null) {
-            Random rd = new Random();
-            stud.putGrade(subject, rd.nextInt(1, 100));
-            System.out.println("Added");
+    public void putGradeToStudent(Scanner scanner) {
+        Teacher teacher = findTeacher(scanner);
+        if(teacher != null){
+            List<Observer> observers = teacher.getManager().getObservers();
+            System.out.println("Choose student id");
+            observers.stream()
+                    .forEach(System.out::println);
+            int studId = scanner.nextInt();
+            Student student = observers.stream()
+                    .map(x -> (Student)x)
+                    .filter(x -> x.getId() == studId)
+                    .findFirst()
+                    .orElse(null);
+            if(student != null){
+                System.out.println("Enter grade");
+                int grade = scanner.nextInt();
+                student.putGrade(teacher.getSubject(), grade);
+                System.out.println("Added");
+            } else System.out.println("We don't have this student");
+
         } else System.out.println("We don't have this student");
     }
 
@@ -156,6 +197,7 @@ public class University {
 
     public Student findStudent(Scanner scanner) {
         System.out.println("Which student? (id)");
+        showStudents();
         int studId = scanner.nextInt();
         Optional<Student> studentOptional = university.getStudents().stream()
                 .filter(x -> x.getId() == studId)
@@ -217,20 +259,32 @@ public class University {
     }
     public void messageFromTeacher(Scanner scanner){
         Teacher teacher = findTeacher(scanner);
-        if(teacher != null){
-            for(Student observer : getStudents()){
-                teacher.addObserver(observer);
-            }
-            teacher.sendMessage(scanner);
-        } else System.out.println("We don't have this teacher");
+        if(teacher != null) teacher.sendMessage(scanner);
+         else System.out.println("We don't have this teacher");
     }
     public Teacher findTeacher(Scanner scanner) {
         System.out.println("Which teacher? (id)");
+        teachers.stream()
+                .map(teacher -> "{id="+teacher.getId() + "} " + "{name="+teacher.getName() + "} " + "{surname="+teacher.getSurname()+"}")
+                .forEach(System.out::println);
         int teachId = scanner.nextInt();
         Optional<Teacher> teacherOptional = university.getTeachers().stream()
                 .filter(x -> x.getId() == teachId)
                 .findFirst();
         if (teacherOptional.isPresent()) return teacherOptional.get();
         return null;
+    }
+    public void addObservers(Subject subject) {
+        teachers.stream()
+                .filter(x -> x.getSubject() == subject)
+                .forEach(teach -> {
+                    if (teach != null) {
+                        teach.getManager().getObservers().addAll(
+                                students.stream()
+                                        .filter(x -> x.getGrades().containsKey(subject))
+                                        .collect(Collectors.toList())
+                        );
+                    }
+                });
     }
 }
