@@ -3,12 +3,12 @@ package com.alisher;
 import java.util.Scanner;
 
 public class App {
-    private static University university = University.getUniversity();
-    private static Scanner sc = new Scanner(System.in);
+    private static final University university = University.getUniversity();
+    private static final Scanner sc = new Scanner(System.in);
     public static void main(String[] args){
         System.out.println("Welcome to our university! Who are you?(teacher or student)");
         String answer = sc.next();
-        boolean accessibility = answer.equals("teacher") ? true : false;
+        boolean accessibility = answer.equals("teacher");
         for(;;){
             System.out.println("What do you want?");
             System.out.println("PRESS [0] TO EXIT");
@@ -23,34 +23,19 @@ public class App {
                 System.out.println("PRESS [8] TO NOTIFY STUDENTS");
             }
             int choice = sc.nextInt();
-            switch (choice){
-                case 0:
+            switch (choice) {
+                case 0 -> {
                     System.out.println("Good bye!");
                     System.exit(1);
-                case 1:
-                    university.showStudents();
-                    break;
-                case 2:
-                    university.goToLibrary(sc, accessibility);
-                    break;
-                case 3:
-                    university.goToCanteen(sc, accessibility);
-                    break;
-                case 4:
-                    university.showTeachers();
-                    break;
-                case 5:
-                    university.additionalInfoAboutStudent(sc);
-                    break;
-                case 6:
-                   university.addStudent(sc);
-                    break;
-                case 7:
-                    university.putGradeToStudent(sc);
-                    break;
-                case 8:
-                    university.messageFromTeacher(sc);
-                    break;
+                }
+                case 1 -> university.showStudents();
+                case 2 -> university.goToLibrary(sc, accessibility);
+                case 3 -> university.goToCanteen(sc, accessibility);
+                case 4 -> university.showTeachers();
+                case 5 -> university.additionalInfoAboutStudent(sc);
+                case 6 -> university.addStudent(sc);
+                case 7 -> university.putGradeToStudent(sc);
+                case 8 -> university.messageFromTeacher(sc);
             }
         }
 

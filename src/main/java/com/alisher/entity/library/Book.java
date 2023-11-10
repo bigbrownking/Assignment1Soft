@@ -5,7 +5,6 @@ public class Book {
     private String bookName;
     private String author;
     private String date;
-    private int studId;
     private int count;
     public Book(int bookId, String bookName, String author, String date, int count) {
         this.bookId = bookId;
@@ -50,13 +49,6 @@ public class Book {
         this.date = date;
     }
 
-    public int getStudId() {
-        return studId;
-    }
-
-    public void setStudId(int studId) {
-        this.studId = studId;
-    }
 
     public int getCount() {
         return count;
