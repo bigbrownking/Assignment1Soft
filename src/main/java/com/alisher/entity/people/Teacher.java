@@ -6,6 +6,7 @@ import com.alisher.entity.subjects.Subject;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
+import java.util.Set;
 import java.util.stream.Collectors;
 
 public class Teacher extends Person implements Observed{
@@ -13,23 +14,8 @@ public class Teacher extends Person implements Observed{
     private NotificationManager manager;
     private String emergencyMessage;
 
-    public List<Observer> getStudents() {
+    public Set<Observer> getStudents() {
         return manager.getObservers();
-    }
-
-    public void setStudents(List<Observer> students) {
-        this.manager.setObservers(students);
-    }
-
-    public String getEmergencyMessage() {
-        return emergencyMessage;
-    }
-
-    public void setEmergencyMessage(String emergencyMessage) {
-        this.emergencyMessage = emergencyMessage;
-    }
-
-    public Teacher() {
     }
     public Teacher(int id, String name, String surname, Subject subject, boolean debtor){
         super(id, name, surname, debtor);
@@ -67,10 +53,6 @@ public class Teacher extends Person implements Observed{
     }
     public Subject getSubject() {
         return subject;
-    }
-
-    public void setSubject(Subject subject) {
-        this.subject = subject;
     }
 
     @Override
@@ -119,16 +101,16 @@ public class Teacher extends Person implements Observed{
     }
 
     @Override
-    public void removeObserver(Observer observer) {
-        manager.getObservers().remove(observer);
-    }
-
-    @Override
     public void notifyObservers() {
         for(Observer observer : manager.getObservers()){
             observer.handleMessage(this.emergencyMessage);
         }
     }
+    @Override
+    public void removeObserver(Observer observer) {
+        manager.getObservers().remove(observer);
+    }
+
     @Override
     public String toString() {
         String studentsList = manager.getObservers().stream()

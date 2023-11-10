@@ -1,16 +1,13 @@
 package com.alisher.entity.people;
 
-import java.util.ArrayList;
-import java.util.List;
+
+import java.util.HashSet;
+import java.util.Set;
 
 public class NotificationManager {
-    private List<Observer> observers = new ArrayList<>();
+    private Set<Observer> observers = new HashSet<>();
 
-    public List<Observer> getObservers() {
+    public Set<Observer> getObservers() {
         return observers;
-    }
-
-    public void setObservers(List<Observer> observers) {
-        this.observers = observers;
     }
 }
