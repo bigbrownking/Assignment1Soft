@@ -31,13 +31,13 @@ public class App {
                     university.showStudents();
                     break;
                 case 2:
-                    university.showTeachers();
-                    break;
-                case 3:
                     university.goToLibrary(sc, accessibility);
                     break;
-                case 4:
+                case 3:
                     university.goToCanteen(sc, accessibility);
+                    break;
+                case 4:
+                    university.showTeachers();
                     break;
                 case 5:
                     university.additionalInfoAboutStudent(sc);
