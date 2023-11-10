@@ -11,8 +11,6 @@ import com.alisher.entity.subjects.Programming;
 import com.alisher.entity.subjects.Subject;
 
 import java.util.*;
-import java.util.stream.Collectors;
-
 public class University {
 
     private List<Student> students = new ArrayList<>();
@@ -110,20 +108,12 @@ public class University {
         return teachers;
     }
 
-    public List<Subject> getSubjects() {
-        return subjects;
-    }
-
     public void showStudents() {
-        students.stream().forEach(System.out::println);
+        students.forEach(System.out::println);
     }
 
     public void showTeachers() {
-        teachers.stream().forEach(System.out::println);
-    }
-
-    public void showSubjects() {
-        subjects.stream().forEach(System.out::println);
+        teachers.forEach(System.out::println);
     }
     public void showBooks(){
         books.stream().filter(x -> x.getCount() > 0).forEach(System.out::println);
@@ -157,10 +147,9 @@ public class University {
     public void putGradeToStudent(Scanner scanner) {
         Teacher teacher = findTeacher(scanner);
         if(teacher != null){
-            List<Observer> observers = teacher.getManager().getObservers();
+            Set<Observer> observers = teacher.getManager().getObservers();
             System.out.println("Choose student id");
-            observers.stream()
-                    .forEach(System.out::println);
+            observers.forEach(System.out::println);
             int studId = scanner.nextInt();
             Student student = observers.stream()
                     .map(x -> (Student)x)
@@ -202,8 +191,7 @@ public class University {
         Optional<Student> studentOptional = university.getStudents().stream()
                 .filter(x -> x.getId() == studId)
                 .findFirst();
-        if (studentOptional.isPresent()) return studentOptional.get();
-        return null;
+        return studentOptional.orElse(null);
     }
     public void goToLibrary(Scanner scanner, boolean accessibility){
         Person person;
@@ -234,8 +222,7 @@ public class University {
         Optional<Book> bookOptional = books.stream()
                 .filter(x -> x.getBookId() == bookId)
                 .findFirst();
-        if(bookOptional.isPresent()) return bookOptional.get();
-        return null;
+        return bookOptional.orElse(null);
     }
     public void goToCanteen(Scanner scanner, boolean accessibility){
         Person person;
@@ -249,12 +236,13 @@ public class University {
             System.out.println("3. Set Meal");
             int choice = scanner.nextInt();
             Canteen canteen = FactoryChoice.getCanteen(choice);
+            assert canteen != null;
             canteen.showMenu();
             System.out.println("Enter a description for your meal:");
             scanner.nextLine();
             String description = scanner.nextLine();
             Dish studDish = canteen.makeOrder(description);
-            System.out.println(person.getName() + " have ordered " + studDish.getDescription() + "for " + studDish.price() + " tenge");
+            System.out.println(person.getName() + " have ordered " + studDish.description() + "for " + studDish.price() + " tenge");
         } else System.out.println("We don't have this person");
     }
     public void messageFromTeacher(Scanner scanner){
@@ -271,19 +259,16 @@ public class University {
         Optional<Teacher> teacherOptional = university.getTeachers().stream()
                 .filter(x -> x.getId() == teachId)
                 .findFirst();
-        if (teacherOptional.isPresent()) return teacherOptional.get();
-        return null;
+        return teacherOptional.orElse(null);
     }
-    public void addObservers(Subject subject) {
+    public void addObservers(Subject subject){
         teachers.stream()
                 .filter(x -> x.getSubject() == subject)
                 .forEach(teach -> {
-                    if (teach != null) {
-                        teach.getManager().getObservers().addAll(
-                                students.stream()
-                                        .filter(x -> x.getGrades().containsKey(subject))
-                                        .collect(Collectors.toList())
-                        );
+                    for (Student student : students.stream()
+                            .filter(x -> x.getGrades().containsKey(subject))
+                            .toList()) {
+                        teach.addObserver(student);
                     }
                 });
     }
